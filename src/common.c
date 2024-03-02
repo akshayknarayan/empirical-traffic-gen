@@ -109,7 +109,7 @@ unsigned int write_forever(int fd, const char *dummy_buf,
     gettimeofday(&write_interval_time, NULL);
     diff_us = interval_us(write_start_time, write_interval_time);
     fprintf(fd_log,
-            "time %llu cumulative_bytes %llu bytes %d throughput %fMbps\n",
+            "time %lu cumulative_bytes %lu bytes %d throughput %fMbps\n",
             diff_us, cumulative_bytes, n, 8.0*n/diff_us);
   } while (n > 0);
   close(fd);

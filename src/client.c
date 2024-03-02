@@ -385,10 +385,10 @@ void process_stats() {
 
   float avg_tput = 0;
   for (int i = 0; i < num_persistent_servers; i++) {
-    printf("Persistent thread %d transferred approx %llu bytes\n", i, backlogged_bytes[i]);
+    printf("Persistent thread %d transferred approx %lu bytes\n", i, backlogged_bytes[i]);
     avg_tput += (float)backlogged_bytes[i]*8.0/total_usec;
   }
-  printf("total experiment time: %lld us\n", total_usec);
+  printf("total experiment time: %ld us\n", total_usec);
   avg_tput /= num_persistent_servers;
   printf("Average throughput for backlogged requests: %fMbps\n", avg_tput);
 }

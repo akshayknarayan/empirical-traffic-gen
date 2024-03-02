@@ -628,6 +628,7 @@ void read_config() {
   int num_fsize_dist = 0;
   int num_load = 0;
   int num_it = 0;
+  bool load_is_mbps = false;
   num_persistent_servers = 0;
   num_fanouts = 0;
   while (fgets(line, 256, fd)) 
@@ -746,8 +747,16 @@ void read_config() {
     }
 
     if (!strcmp(key, "load")) {
-      sscanf(line, "%s %lfMbps\n", key, &load);
-      printf("load: %.2f Mbps\n", load);
+      if (sscanf(line, "%s %lfMbps\n", key, &load) == 2) {
+        printf("load: %.2f Mbps\n", load);
+        load_is_mbps = true;
+      } else if (sscanf(line, "%s %lfRps\n", key, &load) == 2)  {
+        printf("load: %.2f Rps\n", load);
+        load_is_mbps = false;
+      } else {
+        printf("load must be in Mbps or Rps\n");
+        exit(EXIT_FAILURE);
+      }
     }
 
     if (!strcmp(key, "num_reqs")) {
@@ -757,8 +766,14 @@ void read_config() {
   }
   fclose(fd);
 
-  if (load > 0) {
+  if (load_is_mbps && load > 0) {
     period = 8 * empRV->avg() / load;
+    if (period <= 0) {
+      printf("period not positive: %d\n", period);
+      exit(EXIT_FAILURE);
+    }
+  } else if (load > 0) {
+    period = 1e6 / load; // period is in us
     if (period <= 0) {
       printf("period not positive: %d\n", period);
       exit(EXIT_FAILURE);

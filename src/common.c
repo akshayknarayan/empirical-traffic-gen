@@ -87,7 +87,7 @@ uint64_t interval_us(struct timeval start, struct timeval end) {
 unsigned int write_forever(int fd, const char *dummy_buf,
                            size_t max_per_write, const char* log) {
   FILE* fd_log = fopen(log, "w");
-  if (fd_log < 0) {
+  if (fd_log == NULL) {
     printf("Cannot open server-side log!\n");
     fd_log = stdout;
   }

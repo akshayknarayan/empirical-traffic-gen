@@ -116,6 +116,12 @@ fanout 1, and 20% have fanout 8.
 load 1000Mbps
 ```
 
+Load can also be specified in requests per second (to ingore request sizes):
+```
+load 1000Rps
+```
+In this case, for all but single-valued distributions the load in bytes/second will fluctuate.
+
 There must only be one load in the configuration file. A special case is:
 ```
 load 0

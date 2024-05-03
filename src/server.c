@@ -53,7 +53,9 @@ int main (int argc, char *argv[]) {
     error("ERROR on listen");
   
   printf("Dynamic traffic generator application server started...\n");
+  fflush(stdout);
   printf("Listening port: %d\n", serverPort);
+  fflush(stdout);
 
   while(1) {
     /* wait for connections */ 
